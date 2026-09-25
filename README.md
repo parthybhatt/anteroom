@@ -4,8 +4,8 @@ A Windows tray app that tells you when a Claude Code session is waiting on you.
 
 Claude Code sessions block silently: a permission prompt in a terminal on another desktop looks
 exactly like a session that is still working. Anteroom sits in the tray, stars itself when any
-session needs you, and shows one tab per session with the question it is stuck on and a button
-that brings that terminal back to the front.
+session needs you, and shows one tab per session with the question it is stuck on. Clicking the
+tab brings that terminal back to the front.
 
 ## How it works
 
@@ -25,7 +25,7 @@ running, the shim exits 0 without a word, so it never disturbs a session.
 
 The hook payload does not identify the terminal. The shim walks its own parent process chain
 (shim → claude → shell → OpenConsole → WindowsTerminal / Code) and takes the first ancestor that
-owns a visible top-level window. **Open** foregrounds that window; if it is gone, Anteroom offers
+owns a visible top-level window. Clicking the tab foregrounds that window; if it is gone, Anteroom offers
 the session back as `claude --resume <id>` in a new terminal.
 
 For VS Code this focuses the *window*, not the specific integrated-terminal tab — VS Code exposes
@@ -232,5 +232,5 @@ design, so this is the way to tell whether Claude is actually calling the shim.
 - **Nothing appears** — check the log for `hook …` lines. None means Claude is not calling the
   shim: confirm Advanced settings shows *Connected*, and note that hooks are read when a session
   starts, so open a new session after connecting.
-- **Open does nothing** — the terminal window is gone; Anteroom falls back to resume.
+- **Clicking a tab does nothing** — the terminal window is gone; Anteroom falls back to resume.
 - **Tabs on the wrong monitor** — set *Display screen*, which is only enabled with 2+ screens.
